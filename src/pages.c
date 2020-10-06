@@ -331,7 +331,7 @@ pages_purge_lazy(void *addr, size_t size) {
 	    ) != 0);
 #elif defined(JEMALLOC_PURGE_MADVISE_DONTNEED) && \
     !defined(JEMALLOC_PURGE_MADVISE_DONTNEED_ZEROS)
-	return (madvise(addr, size, MADV_DONTNEED) != 0);
+	return 0; //(madvise(addr, size, MADV_DONTNEED) != 0);
 #else
 	not_reached();
 #endif
@@ -348,7 +348,7 @@ pages_purge_forced(void *addr, size_t size) {
 
 #if defined(JEMALLOC_PURGE_MADVISE_DONTNEED) && \
     defined(JEMALLOC_PURGE_MADVISE_DONTNEED_ZEROS)
-	return (madvise(addr, size, MADV_DONTNEED) != 0);
+	return 0; //(madvise(addr, size, MADV_DONTNEED) != 0);
 #elif defined(JEMALLOC_MAPS_COALESCE)
 	/* Try to overlay a new demand-zeroed mapping. */
 	return pages_commit(addr, size);
